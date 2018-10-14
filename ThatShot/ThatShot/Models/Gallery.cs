@@ -9,6 +9,6 @@ namespace ThatShot.Models
     {
         public int ID { get; set; }
 
-        public virtual List< Photos> Photos{ get; set; }
+       public virtual List< Photos> Photos{ get; set; }
     }
 }
