@@ -7,15 +7,18 @@ using ThatShot.Models;
 
 namespace ThatShot.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<TSUser, TSRole, Guid>
     {
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<Picture> Pictures { get; set; }
 
         public DbSet<Genre> Genres { get; set; }
 
+        public TSUser TSUsers { get; set; }
+        public TSRole TSRoles { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+
+        public ApplicationDbContext(DbContextOptions options)
             : base(options)
         {
 

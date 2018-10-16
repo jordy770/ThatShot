@@ -16,7 +16,7 @@ namespace ThatShot.Controllers
             return View();
         }
 
-      [Authorize]
+      [Authorize(Roles ="Admin")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

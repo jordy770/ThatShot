@@ -9,10 +9,10 @@ namespace ThatShot.Models
     public class TSUser: IdentityUser<Guid> //specify your database primary key type. in this case GUID or uniqueidentifier
     {
         //add your properties like Birthday, RegisterDate, etc.
-        public string User_Role { get; set; }
+        public TSRole Role { get; set; }
 
         //add your relationships
-        public virtual ICollection<Photos> Photos { get; set; }
+        public virtual ICollection<Picture> Photos { get; set; }
     }
     
     

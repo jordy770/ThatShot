@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ThatShot.Data
+namespace ThatShot.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class TSRole: IdentityRole<Guid>
     {
-
-
     }
 }
