@@ -18,10 +18,11 @@ namespace ThatShot.Data
         public TSRole TSRoles { get; set; }
 
 
-        public ApplicationDbContext(DbContextOptions options)
+        public ApplicationDbContext(DbContextOptions<ThatShotContext> options)
             : base(options)
         {
 
         }
+ 
     }
 }
