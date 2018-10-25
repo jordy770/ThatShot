@@ -15,6 +15,6 @@ namespace ThatShot.Models
 
         public virtual Genre Genre { get; set; }
 
-        public TSUser User { get; set; }
+        public string User { get; set; }
     }
 }
