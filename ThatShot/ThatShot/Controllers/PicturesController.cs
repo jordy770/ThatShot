@@ -21,15 +21,51 @@ namespace ThatShot.Controllers
         }
 
         // GET: Pictures
-        public async Task<IActionResult> Index()
+
+        // Some code for practice
+        //  List <Picture> pictures
+        //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
+
+        public async Task<IActionResult> Index(string pictureGenre, string searchString)
         {
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Pictures
+                                            orderby m.Genre
+                                            select m.Genre;
 
-          //  List <Picture> pictures
-          //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
-            
+            var pictures = from m in _context.Pictures
+                         select m;
 
-            return View(await _context.Pictures.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pictures = pictures.Where(s => s.Description.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(pictureGenre))
+            {
+                pictures = pictures.Where(x => x.Genre == pictureGenre);
+            }
+
+            var movieGenreVM = new PictureGenreViewModel();
+            movieGenreVM.Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+            movieGenreVM.pictures = await pictures.ToListAsync();
+            movieGenreVM.SearchString = searchString;
+
+            return View(movieGenreVM);
         }
+
+        //public async Task<IActionResult> Index(string searchString)
+       // {
+        //    var pictures = from m in _context.Pictures
+        //                   select m;
+
+         //   if (!string.IsNullOrEmpty(searchString))
+        //   {
+        //        pictures = pictures.Where(s => s.Description.Contains(searchString));
+//}
+
+         //   return View(await pictures.ToListAsync());
+        //}
 
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,7 +97,7 @@ namespace ThatShot.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Url,Description,User")] Picture picture)
+        public async Task<IActionResult> Create([Bind("Id,Url,Description,User,Genre")] Picture picture)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +129,7 @@ namespace ThatShot.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Url,Description,User")] Picture picture)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Url,Description,User,Genre")] Picture picture)
         {
             if (id != picture.Id)
             {

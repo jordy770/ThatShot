@@ -13,22 +13,22 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @*<label asp-for="Url" class="control-label"></label>
-        <input asp-for="Url" class="form-control" />
-        <span asp-validation-for="Url" class="text-danger"></span>*@
-                <form method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Index">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <p>Upload one or more files using this form:</p>
-                            <input type="file" name="files" multiple />
-                        </div>
+                <label asp-for="Url" class="control-label"></label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+                @* <form method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Index">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>Upload one or more files using this form:</p>
+                        <input type="file" name="files" multiple />
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="submit" value="Upload" />
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Upload" />
                     </div>
-                </form>
+                </div>
+            </form>*@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -39,6 +39,11 @@
                 <label asp-for="User" class="control-label"></label>
                 <input asp-for="User" class="form-control" />
                 <span asp-validation-for="User" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genre" class="control-label"></label>
+                <input asp-for="Genre" class="form-control" />
+                <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
