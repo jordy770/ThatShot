@@ -11,7 +11,6 @@ namespace ThatShot.Models
 
         public string Name { get; set; }
 
-        public virtual List<Picture> Photos { get; set; }
     }
 }   
 
