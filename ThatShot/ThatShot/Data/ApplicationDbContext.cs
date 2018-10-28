@@ -9,7 +9,6 @@ namespace ThatShot.Data
 {
     public class ApplicationDbContext : IdentityDbContext<TSUser, TSRole, Guid>
     {
-        public DbSet<Gallery> Galleries { get; set; }
         public DbSet<Picture> Pictures { get; set; }
 
         public DbSet<Genre> Genres { get; set; }
