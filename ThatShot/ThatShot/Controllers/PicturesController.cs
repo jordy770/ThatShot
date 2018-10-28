@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,11 @@ namespace ThatShot.Controllers
         // GET: Pictures
         public async Task<IActionResult> Index()
         {
+
+          //  List <Picture> pictures
+          //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
+            
+
             return View(await _context.Pictures.ToListAsync());
         }
 
@@ -44,6 +50,7 @@ namespace ThatShot.Controllers
         }
 
         // GET: Pictures/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();

@@ -26,13 +26,16 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr>+
+
+
             <td>
-                @Html.DisplayFor(modelItem => item.Url)
-                @{
-                    var base64 = Convert.ToBase64String(item.Url);
-                    var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
-                }
+                @* @Html.DisplayFor(modelItem => item.Url)
+        @{
+          var base64 = Convert.ToBase64String(item.Url);
+          var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+        }
+                *@
                 <img src="@Url.Content(item.Url)" />
             </td>
             <td>
