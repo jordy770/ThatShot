@@ -106,7 +106,7 @@ namespace ThatShot.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Url,Description,User,Genre")] Picture picture)
+        public async Task<IActionResult> Create([Bind("Id,File,Name,Description,User,Genre")] Picture picture)
         {
             var newFileName = string.Empty;
 

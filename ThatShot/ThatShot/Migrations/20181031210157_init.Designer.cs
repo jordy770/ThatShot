@@ -10,7 +10,7 @@ using ThatShot.Data;
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181031193838_init")]
+    [Migration("20181031210157_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
