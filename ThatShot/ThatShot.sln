@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThatShot", "ThatShot\ThatShot.csproj", "{8A231055-06A1-4762-B745-683235B81AFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThatShot", "ThatShot\ThatShot.csproj", "{8A231055-06A1-4762-B745-683235B81AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{FCB8FA15-B9E6-4178-9879-259E4C7B285A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8A231055-06A1-4762-B745-683235B81AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A231055-06A1-4762-B745-683235B81AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A231055-06A1-4762-B745-683235B81AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB8FA15-B9E6-4178-9879-259E4C7B285A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB8FA15-B9E6-4178-9879-259E4C7B285A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB8FA15-B9E6-4178-9879-259E4C7B285A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB8FA15-B9E6-4178-9879-259E4C7B285A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

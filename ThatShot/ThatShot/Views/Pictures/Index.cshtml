@@ -25,7 +25,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.pictures[0].Url)
+                @Html.DisplayNameFor(model => model.pictures[0].Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.pictures[0].Description)
@@ -43,17 +43,25 @@
         @foreach (var item in Model.pictures)
         {
             <tr>
-                +
+               
 
 
                 <td>
                     @* @Html.DisplayFor(modelItem => item.Url)
-                        @{
-                          var base64 = Convert.ToBase64String(item.Url);
-                          var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
-                        }
                     *@
-                    <img src="@Url.Content(item.Url)" />
+                    <img src="~/demoImages/@item.Name" width="100px" height="100px" />
+
+                    @*
+        @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
+        {
+            <dt>
+                avatar
+            </dt>
+            <dd>
+                <img src="~/File?id=@model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" />
+            </dd>
+        }
+                    *@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)

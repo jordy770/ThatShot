@@ -102,30 +102,6 @@ namespace ThatShot.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ThatShot.Models.Gallery", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Galleries");
-                });
-
-            modelBuilder.Entity("ThatShot.Models.Genre", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Genres");
-                });
-
             modelBuilder.Entity("ThatShot.Models.Picture", b =>
                 {
                     b.Property<int>("Id")
@@ -134,23 +110,17 @@ namespace ThatShot.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("GalleryID");
+                    b.Property<string>("File");
 
                     b.Property<string>("Genre");
 
-                    b.Property<int?>("GenreID");
+                    b.Property<string>("Name");
 
                     b.Property<Guid?>("TSUserId");
-
-                    b.Property<string>("Url");
 
                     b.Property<string>("User");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GalleryID");
-
-                    b.HasIndex("GenreID");
 
                     b.HasIndex("TSUserId");
 
@@ -283,14 +253,6 @@ namespace ThatShot.Migrations
 
             modelBuilder.Entity("ThatShot.Models.Picture", b =>
                 {
-                    b.HasOne("ThatShot.Models.Gallery")
-                        .WithMany("Photos")
-                        .HasForeignKey("GalleryID");
-
-                    b.HasOne("ThatShot.Models.Genre")
-                        .WithMany("Photos")
-                        .HasForeignKey("GenreID");
-
                     b.HasOne("ThatShot.Models.TSUser")
                         .WithMany("Photos")
                         .HasForeignKey("TSUserId");
