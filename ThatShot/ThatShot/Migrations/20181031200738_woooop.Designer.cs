@@ -10,8 +10,8 @@ using ThatShot.Data;
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181028115420_hoi]")]
-    partial class hoi
+    [Migration("20181031200738_woooop")]
+    partial class woooop
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,11 +112,7 @@ namespace ThatShot.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PictureId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("PictureId");
 
                     b.ToTable("Genres");
                 });
@@ -132,6 +128,8 @@ namespace ThatShot.Migrations
                     b.Property<string>("Url");
 
                     b.Property<Guid?>("UserId");
+
+                    b.Property<string>("genres");
 
                     b.HasKey("Id");
 
@@ -262,13 +260,6 @@ namespace ThatShot.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ThatShot.Models.Genre", b =>
-                {
-                    b.HasOne("ThatShot.Models.Picture")
-                        .WithMany("genres")
-                        .HasForeignKey("PictureId");
                 });
 
             modelBuilder.Entity("ThatShot.Models.Picture", b =>

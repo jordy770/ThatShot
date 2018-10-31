@@ -23,18 +23,6 @@ namespace ThatShot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Galleries",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Galleries", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
@@ -193,25 +181,12 @@ namespace ThatShot.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Url = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    GenreID = table.Column<int>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: true),
-                    GalleryID = table.Column<int>(nullable: true)
+                    genres = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pictures", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pictures_Galleries_GalleryID",
-                        column: x => x.GalleryID,
-                        principalTable: "Galleries",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pictures_Genres_GenreID",
-                        column: x => x.GenreID,
-                        principalTable: "Genres",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Pictures_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -265,16 +240,6 @@ namespace ThatShot.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pictures_GalleryID",
-                table: "Pictures",
-                column: "GalleryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pictures_GenreID",
-                table: "Pictures",
-                column: "GenreID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pictures_UserId",
                 table: "Pictures",
                 column: "UserId");
@@ -298,13 +263,10 @@ namespace ThatShot.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Pictures");
-
-            migrationBuilder.DropTable(
-                name: "Galleries");
-
-            migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Pictures");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

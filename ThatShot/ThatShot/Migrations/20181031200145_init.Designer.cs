@@ -10,7 +10,7 @@ using ThatShot.Data;
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181015124543_init")]
+    [Migration("20181031200145_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,17 +104,6 @@ namespace ThatShot.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ThatShot.Models.Gallery", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Galleries");
-                });
-
             modelBuilder.Entity("ThatShot.Models.Genre", b =>
                 {
                     b.Property<int>("ID")
@@ -136,19 +125,13 @@ namespace ThatShot.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("GalleryID");
-
-                    b.Property<int?>("GenreID");
-
                     b.Property<string>("Url");
 
                     b.Property<Guid?>("UserId");
 
+                    b.Property<string>("genres");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("GalleryID");
-
-                    b.HasIndex("GenreID");
 
                     b.HasIndex("UserId");
 
@@ -281,14 +264,6 @@ namespace ThatShot.Migrations
 
             modelBuilder.Entity("ThatShot.Models.Picture", b =>
                 {
-                    b.HasOne("ThatShot.Models.Gallery")
-                        .WithMany("Photos")
-                        .HasForeignKey("GalleryID");
-
-                    b.HasOne("ThatShot.Models.Genre", "Genre")
-                        .WithMany("Photos")
-                        .HasForeignKey("GenreID");
-
                     b.HasOne("ThatShot.Models.TSUser", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId");

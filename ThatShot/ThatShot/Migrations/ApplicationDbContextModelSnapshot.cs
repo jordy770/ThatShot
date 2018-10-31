@@ -110,11 +110,7 @@ namespace ThatShot.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PictureId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("PictureId");
 
                     b.ToTable("Genres");
                 });
@@ -130,6 +126,8 @@ namespace ThatShot.Migrations
                     b.Property<string>("Url");
 
                     b.Property<Guid?>("UserId");
+
+                    b.Property<string>("genres");
 
                     b.HasKey("Id");
 
@@ -260,13 +258,6 @@ namespace ThatShot.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ThatShot.Models.Genre", b =>
-                {
-                    b.HasOne("ThatShot.Models.Picture")
-                        .WithMany("genres")
-                        .HasForeignKey("PictureId");
                 });
 
             modelBuilder.Entity("ThatShot.Models.Picture", b =>

@@ -13,7 +13,7 @@ namespace ThatShot.Models
 
         public string Description { get; set; }
 
-        public ICollection<Genre> genres { get; set; }
+        public string genres { get; set; }
 
         public TSUser User { get; set; }
     }
