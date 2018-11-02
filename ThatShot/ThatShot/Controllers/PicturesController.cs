@@ -13,20 +13,22 @@ using Microsoft.EntityFrameworkCore;
 using ThatShot.Data;
 using ThatShot.Models;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace ThatShot.Controllers
 {
     public class PicturesController : Controller
     {
+        private readonly UserManager<TSUser> _userManager;
+
         private readonly IHostingEnvironment _environment;
         private readonly ApplicationDbContext _context;
 
-
-        public PicturesController(IHostingEnvironment IHostingEnvironment, ApplicationDbContext context)
+        public PicturesController(IHostingEnvironment IHostingEnvironment, ApplicationDbContext context, UserManager<TSUser> userManager)
         {
             _context = context;
             _environment = IHostingEnvironment;
+            _userManager = userManager;
         }
 
         // GET: Pictures
@@ -47,7 +49,9 @@ namespace ThatShot.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
+                pictures = pictures.Where(s => s.Name.Contains(searchString));
                 pictures = pictures.Where(s => s.Description.Contains(searchString));
+                pictures = pictures.Where(s => s.User.Contains(searchString));
             }
 
             if (!String.IsNullOrEmpty(pictureGenre))
@@ -61,20 +65,7 @@ namespace ThatShot.Controllers
             movieGenreVM.SearchString = searchString;
 
             return View(movieGenreVM);
-        }
-
-        //public async Task<IActionResult> Index(string searchString)
-        // {
-        //    var pictures = from m in _context.Pictures
-        //                   select m;
-
-        //   if (!string.IsNullOrEmpty(searchString))
-        //   {
-        //        pictures = pictures.Where(s => s.Description.Contains(searchString));
-        //}
-
-        //   return View(await pictures.ToListAsync());
-        //}
+        }   
 
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -95,11 +86,12 @@ namespace ThatShot.Controllers
         }
 
         // GET: Pictures/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize/*(Roles = "Admin")*/]
         public IActionResult Create()
         {
             return View();
         }
+                     
 
         // POST: Pictures/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -109,11 +101,11 @@ namespace ThatShot.Controllers
         public async Task<IActionResult> Create([Bind("Id,File,Name,Description,User,Genre")] Picture picture)
         {
             var newFileName = string.Empty;
+            string pathDB = string.Empty;
 
             if (HttpContext.Request.Form.Files != null)
             {
                 var fileName = string.Empty;
-                string PathDB = string.Empty;
 
                 var files = HttpContext.Request.Form.Files;
 
@@ -131,13 +123,13 @@ namespace ThatShot.Controllers
                         var FileExtension = Path.GetExtension(fileName);
 
                         // concating  FileName + FileExtension
-                        newFileName = myUniqueFileName + FileExtension;
+                        newFileName = myUniqueFileName + ".jpg";
 
                         // Combines two strings into a path.
                         fileName = Path.Combine(_environment.WebRootPath, "demoImages") + $@"\{newFileName}";
 
                         // if you want to store path of folder in database
-                        PathDB = "demoImages/" + newFileName;
+                        pathDB = "demoImages/" + newFileName;
 
 
                         using (FileStream fs = System.IO.File.Create(fileName))
@@ -152,13 +144,18 @@ namespace ThatShot.Controllers
                         //}
                     }
                 }
-              }
-        if (ModelState.IsValid)
+              
+            }
+            if (ModelState.IsValid)
             {
+                ViewBag.username = _userManager.GetUserName(HttpContext.User);
+                picture.File = pathDB;
+                picture.User = @ViewBag.username;
                 _context.Add(picture);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(picture);
         }
 

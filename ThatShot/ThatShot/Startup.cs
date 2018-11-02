@@ -102,8 +102,8 @@ namespace ThatShot
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Default",
+                    template: "{controller=Pictures}/{action=Index}/{id?}");
             });
         }
     }

@@ -4,16 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Pictures</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated) { 
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
 
 <form>
     <p>
+        Genre:
         <select asp-for="PictureGenre" asp-items="Model.Genres">
-        <option value="">All</option>
+            <option value="">All</option>
         </select>
 
         Description: <input type="text" name="Searchstring" />
@@ -21,9 +25,14 @@
     </p>
 </form>
 
-<table class="table">
+<br />
+
+@*<table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.pictures[0].File)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.pictures[0].Name)
             </th>
@@ -39,45 +48,55 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model.pictures)
-        {
-            <tr>
-               
+</table>*@
+
+<div>
+    @foreach (var item in Model.pictures)
+    {
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="~/@item.File" alt="Just some picutre" style="border">
+                
+                <div class="caption">
+                    @if (User.Identity.IsAuthenticated) {
+                        if (User.IsInRole("Admin"))
+                        {
+                        <div class="btn-group pull-right" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default">Show</button>
+                            <button type="button" class="btn btn-default">Hide</button>
+                        </div>
+                        }
+                    }
+                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                    <div>User: @Html.DisplayFor(modelItem => item.User)<br />Genre: @Html.DisplayFor(modelItem => item.Genre)</div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 
-                <td>
-                    @* @Html.DisplayFor(modelItem => item.Url)
-                    *@
-                    <img src="~/demoImages/@item.Name" width="100px" height="100px" />
-
-                    @*
-        @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
-        {
-            <dt>
-                avatar
-            </dt>
-            <dd>
-                <img src="~/File?id=@model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" />
-            </dd>
-        }
-                    *@
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@*<tr>
+        <td>
+            <img src="~/@item.File" width="150px" height="100px" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>*@
