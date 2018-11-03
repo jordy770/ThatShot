@@ -35,10 +35,6 @@ namespace ThatShot.Controllers
         // GET: Pictures
 
         // Some code for practice
-
-        //  List <Picture> pictures
-        //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
-
         public async Task<IActionResult> Index(string pictureGenre, string searchString)
         {
             // Use LINQ to get list of genres.
@@ -72,12 +68,7 @@ namespace ThatShot.Controllers
         }
 
         // GET: All/Pictures admin
-
-        // Some code for practice
-
-        //  List <Picture> pictures
-        //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
-
+        
         public async Task<IActionResult> AdminView(string pictureGenre, string searchString)
         {
             // Use LINQ to get list of genres.
