@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThatShot.Data;
 
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181102134012_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,23 +110,21 @@ namespace ThatShot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300);
+                    b.Property<string>("Description");
 
                     b.Property<string>("File");
 
                     b.Property<string>("Genre");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60);
+                    b.Property<string>("Name");
+
+                    b.Property<Guid?>("TSUserId");
 
                     b.Property<string>("User");
 
-                    b.Property<bool>("show");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("TSUserId");
 
                     b.ToTable("Pictures");
                 });
@@ -251,6 +251,13 @@ namespace ThatShot.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ThatShot.Models.Picture", b =>
+                {
+                    b.HasOne("ThatShot.Models.TSUser")
+                        .WithMany("Photos")
+                        .HasForeignKey("TSUserId");
                 });
 
             modelBuilder.Entity("ThatShot.Models.TSUser", b =>

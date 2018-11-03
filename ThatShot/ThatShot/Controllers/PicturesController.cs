@@ -14,6 +14,7 @@ using ThatShot.Data;
 using ThatShot.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using ThatShot.Migrations;
 
 namespace ThatShot.Controllers
 {
@@ -34,6 +35,7 @@ namespace ThatShot.Controllers
         // GET: Pictures
 
         // Some code for practice
+
         //  List <Picture> pictures
         //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
 
@@ -44,8 +46,10 @@ namespace ThatShot.Controllers
                                             orderby m.Genre
                                             select m.Genre;
 
-            var pictures = from m in _context.Pictures
+            var pictures = from m in _context.Pictures where m.show == false
                            select m;
+
+
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -65,7 +69,47 @@ namespace ThatShot.Controllers
             movieGenreVM.SearchString = searchString;
 
             return View(movieGenreVM);
-        }   
+        }
+
+        // GET: All/Pictures admin
+
+        // Some code for practice
+
+        //  List <Picture> pictures
+        //  List<Genre> Genres=Genre.select(item => new Genre { Name= item.genre})
+
+        public async Task<IActionResult> AdminView(string pictureGenre, string searchString)
+        {
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Pictures
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            var pictures = from m in _context.Pictures
+                           select m;
+
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pictures = pictures.Where(s => s.Name.Contains(searchString));
+                pictures = pictures.Where(s => s.Description.Contains(searchString));
+                pictures = pictures.Where(s => s.User.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(pictureGenre))
+            {
+                pictures = pictures.Where(x => x.Genre == pictureGenre);
+            }
+
+            var movieGenreVM = new PictureGenreViewModel();
+            movieGenreVM.Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+            movieGenreVM.pictures = await pictures.ToListAsync();
+            movieGenreVM.SearchString = searchString;
+
+            return View(movieGenreVM);
+        }
+
 
         // GET: Pictures/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -89,9 +133,76 @@ namespace ThatShot.Controllers
         [Authorize/*(Roles = "Admin")*/]
         public IActionResult Create()
         {
-            return View();
+            ViewBag.username = _userManager.GetUserName(HttpContext.User);
+
+            if (User.Identity.Name == @ViewBag.username)
+            { 
+                return View();
+            }
+            return NotFound();
         }
-                     
+
+
+
+        // GET: Pictures/Admin/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Admin(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var picture = await _context.Pictures.FindAsync(id);
+            if (picture == null)
+            {
+                return NotFound();
+            }
+
+            return View(picture);
+        }
+
+        // POST: Pictures/Admin/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Admin(int id, [Bind("Id,File,Name,Description,User,Genre,show")] Picture picture)
+        {
+            ViewBag.username = _userManager.GetUserName(HttpContext.User);
+
+            if (id != picture.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(picture);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PictureExists(picture.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(picture);
+        }
+
+
+
 
         // POST: Pictures/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -137,20 +248,14 @@ namespace ThatShot.Controllers
                             file.CopyTo(fs);
                             fs.Flush();
                         }
-                        //using (var target = new MemoryStream())
-                        //{
-                        //    file.CopyTo(target);
-                        //    return target.ToArray();
-                        //}
                     }
                 }
-              
             }
             if (ModelState.IsValid)
             {
                 ViewBag.username = _userManager.GetUserName(HttpContext.User);
                 picture.File = pathDB;
-                picture.User = @ViewBag.username;
+                picture.User = ViewBag.username;
                 _context.Add(picture);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -160,9 +265,11 @@ namespace ThatShot.Controllers
         }
 
         // GET: Pictures/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            
+            if (id == null )
             {
                 return NotFound();
             }
@@ -172,6 +279,7 @@ namespace ThatShot.Controllers
             {
                 return NotFound();
             }
+            
             return View(picture);
         }
 
@@ -180,8 +288,10 @@ namespace ThatShot.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Url,Description,User,Genre")] Picture picture)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,File,Name,Description,User,Genre")] Picture picture)
         {
+            ViewBag.username = _userManager.GetUserName(HttpContext.User);
+
             if (id != picture.Id)
             {
                 return NotFound();
@@ -238,6 +348,8 @@ namespace ThatShot.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        
 
         private bool PictureExists(int id)
         {

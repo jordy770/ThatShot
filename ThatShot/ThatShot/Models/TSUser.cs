@@ -12,7 +12,7 @@ namespace ThatShot.Models
         public TSRole Role { get; set; }
 
         //add your relationships
-        public virtual ICollection<Picture> Photos { get; set; }
+        //public virtual ICollection<Picture> Photos { get; set; }
     }
     
     

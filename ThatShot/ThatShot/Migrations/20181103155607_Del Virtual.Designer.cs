@@ -10,8 +10,8 @@ using ThatShot.Data;
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181031210157_init")]
-    partial class init
+    [Migration("20181103155607_Del Virtual")]
+    partial class DelVirtual
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,21 +110,23 @@ namespace ThatShot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<string>("File");
 
                     b.Property<string>("Genre");
 
-                    b.Property<string>("Name");
-
-                    b.Property<Guid?>("TSUserId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
 
                     b.Property<string>("User");
 
-                    b.HasKey("Id");
+                    b.Property<int>("show");
 
-                    b.HasIndex("TSUserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Pictures");
                 });
@@ -251,13 +253,6 @@ namespace ThatShot.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ThatShot.Models.Picture", b =>
-                {
-                    b.HasOne("ThatShot.Models.TSUser")
-                        .WithMany("Photos")
-                        .HasForeignKey("TSUserId");
                 });
 
             modelBuilder.Entity("ThatShot.Models.TSUser", b =>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThatShot.Data;
 
 namespace ThatShot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181103154931_how")]
+    partial class how
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,11 +122,15 @@ namespace ThatShot.Migrations
                         .IsRequired()
                         .HasMaxLength(60);
 
+                    b.Property<Guid?>("TSUserId");
+
                     b.Property<string>("User");
 
-                    b.Property<bool>("show");
+                    b.Property<int>("show");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TSUserId");
 
                     b.ToTable("Pictures");
                 });
@@ -251,6 +257,13 @@ namespace ThatShot.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ThatShot.Models.Picture", b =>
+                {
+                    b.HasOne("ThatShot.Models.TSUser")
+                        .WithMany("Photos")
+                        .HasForeignKey("TSUserId");
                 });
 
             modelBuilder.Entity("ThatShot.Models.TSUser", b =>
