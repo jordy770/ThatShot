@@ -1,0 +1,38 @@
+﻿@model ThatShot.Models.Picture
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h2>Hide Picture</h2>
+
+
+<div class="row">
+    <div class="col-sm-1">
+    <form asp-action="Admin">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="File"/>
+        <input type="hidden" asp-for="Name"/>
+        <input type="hidden" asp-for="Description"/>
+        <input type="hidden" asp-for="Genre"/>
+        <input type="hidden" asp-for="User"/>
+        <div class="form-group">
+            
+            <input type="checkbox" asp-for="show" class="form-control" />
+          
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </form>
+    </div>
+    </div>
+
+<div>
+    <a asp-action="AdminView">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

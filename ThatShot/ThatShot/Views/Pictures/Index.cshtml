@@ -1,0 +1,66 @@
+﻿@model ThatShot.Models.PictureGenreViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Pictures</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+
+<form>
+    <p>
+        Genre:
+        <select asp-for="PictureGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+
+        Description: <input type="text" name="Searchstring" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<br />
+
+<div>
+    @foreach (var item in Model.pictures)
+    {
+        <div class="col-sm-6 col-md-4">
+
+            <div class="thumbnail">
+                <img src="~/@item.File" alt="Just some picutre">
+
+                <div class="caption">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+
+                            <a asp-action="Admin" asp-route-id="@item.Id">Admin</a>
+                    }
+                    }
+                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                    <div><b>User:</b> @Html.DisplayFor(modelItem => item.User)<br /><b>Genre:</b> @Html.DisplayFor(modelItem => item.Genre)</div>
+                    <br />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.Identity.Name == item.User)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
