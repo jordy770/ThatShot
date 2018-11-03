@@ -28,29 +28,6 @@
 
 <br />
 
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.pictures[0].File)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pictures[0].Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pictures[0].Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pictures[0].User)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.pictures[0].Genre)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>*@
-
 <div>
     @foreach (var item in Model.pictures)
     {
@@ -66,12 +43,6 @@
                         {
 
                             <a asp-action="Admin" asp-route-id="@item.Id">Admin</a>
-                        @*<form method="post" asp-action="Index">
-                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                <input type="submit" class="btn btn-default" value="0">Show
-                                <input type="submit" class="btn btn-default" value="1">Hide
-                            </div>
-                        </form>*@
                     }
                     }
                     <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
@@ -93,25 +64,3 @@
         </div>
     }
 </div>
-
-
-@*<tr>
-        <td>
-            <img src="~/@item.File" width="150px" height="100px" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre)
-        </td>
-        <td>
-
-        </td>
-    </tr>*@
