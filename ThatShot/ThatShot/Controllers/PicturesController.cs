@@ -259,19 +259,25 @@ namespace ThatShot.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            
-            if (id == null )
-            {
-                return NotFound();
-            }
+            ViewBag.username = _userManager.GetUserName(HttpContext.User);
 
-            var picture = await _context.Pictures.FindAsync(id);
-            if (picture == null)
-            {
-                return NotFound();
+            if (ViewBag.username == User.Identity.Name) {
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var picture = await _context.Pictures.FindAsync(id);
+                if (picture == null)
+                {
+                    return NotFound();
+                }
+
+                return View(picture);
+
             }
-            
-            return View(picture);
+            return NotFound();
         }
 
         // POST: Pictures/Edit/5
