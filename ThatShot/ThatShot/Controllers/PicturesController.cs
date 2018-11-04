@@ -77,6 +77,7 @@ namespace ThatShot.Controllers
                                             select m.Genre;
 
             var pictures = from m in _context.Pictures
+                           .Include(picture => picture.Name)
                            select m;
 
 
@@ -260,8 +261,9 @@ namespace ThatShot.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.username = _userManager.GetUserName(HttpContext.User);
+            string usr = User.Identity.Name;
 
-            if (ViewBag.username == User.Identity.Name) {
+            if (ViewBag.username == usr) {
 
                 if (id == null)
                 {
