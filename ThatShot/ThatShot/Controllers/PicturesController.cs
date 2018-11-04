@@ -77,7 +77,6 @@ namespace ThatShot.Controllers
                                             select m.Genre;
 
             var pictures = from m in _context.Pictures
-                           .Include(picture => picture.Name)
                            select m;
 
 
