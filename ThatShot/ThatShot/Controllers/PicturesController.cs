@@ -68,7 +68,7 @@ namespace ThatShot.Controllers
         }
 
         // GET: All/Pictures admin
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminView(string pictureGenre, string searchString)
         {
             // Use LINQ to get list of genres.
@@ -120,8 +120,8 @@ namespace ThatShot.Controllers
             return View(picture);
         }
 
-        // GET: Pictures/Create
-        [Authorize/*(Roles = "Admin")*/]
+        // GET: Pictures/Cre    ate
+        [Authorize]
         public IActionResult Create()
         {
             ViewBag.username = _userManager.GetUserName(HttpContext.User);
